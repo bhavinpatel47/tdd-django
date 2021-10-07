@@ -35,7 +35,8 @@ class NewVisitorTest(unittest.TestCase):
         # There is still a box asking user to enter a to-do list item
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(rows.text == '1: Get milk and eggs' for row in rows))
+        self.assertTrue(any(rows.text == '1: Get milk and eggs' for row in rows),
+                        'New to-do item did not appear in table')
 
         self.fail("Finish the test!")
 
