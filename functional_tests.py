@@ -13,6 +13,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self) -> None:
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # User wants to visit a web app with To-Do capabilities. User visits the homepage
         self.browser.get("http://localhost:8000")
@@ -34,9 +39,8 @@ class NewVisitorTest(unittest.TestCase):
 
         self.browser.implicitly_wait(5)
         # There is still a box asking user to enter a to-do list item
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Get milk and eggs', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Get milk and eggs')
+
         # self.assertTrue(any(row.text == '1: Get milk and eggs' for row in rows),
         #                 f'New to-do item did not appear in table.\nIt was {table.text}')
 
@@ -48,10 +52,8 @@ class NewVisitorTest(unittest.TestCase):
         # User presses enter and the list updates again showing both items
         inputbox.send_keys(Keys.ENTER)
         self.browser.implicitly_wait(5)
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Get milk and eggs', [row.text for row in rows])
-        self.assertIn('2: Make cake batter', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Get milk and eggs')
+        self.check_for_row_in_list_table('2: Make cake batter')
 
         # User wants the site to remember her list of items.
         # A unique URL is generated for the user and there are some instructions explaining the same
