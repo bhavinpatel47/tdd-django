@@ -2,7 +2,7 @@ import unittest
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.support import wait
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -32,19 +32,33 @@ class NewVisitorTest(unittest.TestCase):
         # When user hits enter, the list is updated
         inputbox.send_keys(Keys.ENTER)
 
+        self.browser.implicitly_wait(5)
         # There is still a box asking user to enter a to-do list item
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(rows.text == '1: Get milk and eggs' for row in rows),
-                        'New to-do item did not appear in table')
+        self.assertIn('1: Get milk and eggs', [row.text for row in rows])
+        # self.assertTrue(any(row.text == '1: Get milk and eggs' for row in rows),
+        #                 f'New to-do item did not appear in table.\nIt was {table.text}')
 
-        self.fail("Finish the test!")
 
         # User enters "make cake batter"
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys("Make cake batter")
+
         # User presses enter and the list updates again showing both items
+        inputbox.send_keys(Keys.ENTER)
+        self.browser.implicitly_wait(5)
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Get milk and eggs', [row.text for row in rows])
+        self.assertIn('2: Make cake batter', [row.text for row in rows])
+
         # User wants the site to remember her list of items.
         # A unique URL is generated for the user and there are some instructions explaining the same
         # User visits the given url and can see the previous list
+        self.fail("Finish the test!")
+
+
 
 
 if __name__ == '__main__':
