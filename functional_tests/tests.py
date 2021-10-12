@@ -37,21 +37,22 @@ class NewVisitorTest(LiveServerTestCase):
 
         # When user hits enter, the list is updated
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(0.5)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, "/lists/.+")
 
         # There is still a box asking user to enter a to-do list item
-        time.sleep(1)
+        time.sleep(0.5)
         self.check_for_row_in_list_table('1: Get milk and eggs')
 
         # User enters "make cake batter"
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys("Make cake batter")
-        time.sleep(1)
+        time.sleep(0.5)
 
         # User presses enter and the list updates again showing both items
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(0.5)
 
         self.check_for_row_in_list_table('1: Get milk and eggs')
         self.check_for_row_in_list_table('2: Make cake batter')
@@ -73,6 +74,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys("Go to school")
         inputbox.send_keys(Keys.ENTER)
+        time.sleep(0.5)
 
         # Francis gets his own unique url
         francis_list_url = self.browser.current_url
