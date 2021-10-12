@@ -21,7 +21,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # User wants to visit a web app with To-Do capabilities. User visits the homepage
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 
         # User sees the title and header with To-Do in it
         self.assertIn('To-Do', self.browser.title)
@@ -61,8 +61,3 @@ class NewVisitorTest(LiveServerTestCase):
         # A unique URL is generated for the user and there are some instructions explaining the same
         # User visits the given url and can see the previous list
         self.fail("Finish the test!")
-
-
-if __name__ == '__main__':
-    # unittest.main(warnings='ignore')
-    unittest.main()
