@@ -3,23 +3,18 @@ import unittest
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import wait
-
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
-        self.wait = WebDriverWait(self.browser, 10)
         self.browser.implicitly_wait(3)
 
     def tearDown(self) -> None:
         self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
-        self.wait.until(EC.StaleElementReferenceException)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])
