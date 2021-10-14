@@ -20,37 +20,36 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        # User wants to visit a web app with To-Do capabilities. User visits the homepage
+        # Edith wants to use a web app with To-Do capabilities.
+        # Edith visits our homepage
         self.browser.get(self.live_server_url)
 
-        # User sees the title and header with To-Do in it
+        # Edith sees the title and header with To-Do in it
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('To-Do', header_text)
 
-        # User is prompted to enter a to-do list item
+        # Edith is prompted to enter a to-do list item
         inputbox = self.browser.find_element_by_id("id_new_item")
         self.assertEqual("Enter a to-do item", inputbox.get_attribute('placeholder'))
 
-        # User enters "1: get milk and eggs"
+        # Edith enters "1: get milk and eggs"
         inputbox.send_keys("Get milk and eggs")
 
-        # When user hits enter, the list is updated
+        # Edith hits enter, the list is updated
         inputbox.send_keys(Keys.ENTER)
         time.sleep(0.5)
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, "/lists/.+")
 
-        # There is still a box asking user to enter a to-do list item
-        time.sleep(0.5)
+        # There is still a box asking Edith to enter a to-do list item
         self.check_for_row_in_list_table('1: Get milk and eggs')
 
-        # User enters "make cake batter"
+        # Edith types "make cake batter"
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys("Make cake batter")
-        time.sleep(0.5)
 
-        # User presses enter and the list updates again showing both items
+        # Edith presses enter and the list updates again showing both items
         inputbox.send_keys(Keys.ENTER)
         time.sleep(0.5)
 
@@ -60,9 +59,9 @@ class NewVisitorTest(LiveServerTestCase):
         # Now a new user, Francis, comes along to the site
         ## We use a new browser session to make sure that no information of Edith's is coming  through from the cookies
         self.browser.quit()
-        self.browser = webdriver.Firefox()
 
         # Francis visits the page, there is no sign of Edith's list
+        self.browser = webdriver.Firefox()
 
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
@@ -87,3 +86,21 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn("Go to school", page_text)
 
         # Satisfied, they both go back to sleep
+
+    def test_layout_and_styling(self):
+        # Edith goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # Edith notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + (inputbox.size['width'] / 2), 512, delta=6)
+
+        # Edith starts a new list and sees that the input box is nicely centered there too.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys("Edith wants everything centered")
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(0.5)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + (inputbox.size['width'] / 2), 512, delta=6)
+
