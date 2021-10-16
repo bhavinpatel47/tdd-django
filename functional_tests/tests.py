@@ -1,3 +1,5 @@
+import os
+import sys
 import time
 import unittest
 
@@ -7,8 +9,12 @@ from selenium.webdriver.common.keys import Keys
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
+
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
         self.browser.implicitly_wait(3)
 
     def tearDown(self) -> None:
