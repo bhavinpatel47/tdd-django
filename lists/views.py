@@ -3,11 +3,12 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from lists.forms import ItemForm
 from lists.models import Item, List
 
 
 def home_page(request: HttpRequest):
-    return render(request, "home.html")
+    return render(request, "home.html", {'form': ItemForm()})
 
 
 def view_list(request: HttpRequest, list_id):
