@@ -11,18 +11,18 @@ class LayoutAndStyling(FunctionalTests):
         self.browser.set_window_size(1024, 768)
 
         # She notices the input box is nicely centered
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertAlmostEqual(
             inputbox.location['x'] + (inputbox.size['width'] / 2),
             512,
             delta=6)
 
         # She starts a new list and sees that the input box is nicely centered there too.
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys("Edith wants everything centered")
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("1: Edith wants everything centered")
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertAlmostEqual(
             inputbox.location['x'] + (inputbox.size['width'] / 2),
             512,
