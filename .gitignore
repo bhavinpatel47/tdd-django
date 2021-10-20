@@ -1,4 +1,7 @@
 "db.sqlite3" 
 "__superlists/__pycache__" 
 "*.pyc" 
-".env" 
+".env"
+*/static/
+/geckodriver.log
+/scratch-Todo-lists.py
