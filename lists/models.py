@@ -13,8 +13,11 @@ class Item(models.Model):
     list = models.ForeignKey(List, default=None, on_delete=models.SET_DEFAULT)
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['list', 'text'], name='unique_item_in_list_constraint'),]
-        ordering = ('id',)
+        constraints = [
+            models.UniqueConstraint(fields=['text', 'list'], name='unique_item_in_list_constraint'),
+        ]
+        # unique_together = ('list', 'text')
+
         # unique_together = [['list', 'text']]
 
     def __str__(self):
