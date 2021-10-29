@@ -1,7 +1,10 @@
 "db.sqlite3" 
-"__superlists/__pycache__" 
+"*/__pycache__" 
+"/*/__pycache__"
 "*.pyc" 
 ".env"
 */static/
 /geckodriver.log
 /scratch-Todo-lists.py
+/htmlcov/
+/.coverage
