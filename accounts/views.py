@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.shortcuts import redirect, render
 
-from accounts.models import Token
+from accounts.models import Token, User
 
 # Create your views here.
 def send_login_email(request):
@@ -14,10 +14,10 @@ def send_login_email(request):
     )
     message_body = f'Use this link to log in:\n\n{url}'
     send_mail(
-        subject='Your login link for Superlists',
-        message=message_body,
-        from_email='numbmonke@gmail.com', 
-        recipient_list=[email])
+        'Your login link for Superlists',
+        message_body,
+        'numbmonke@gmail.com', 
+        [email])
 
 
     messages.success(
@@ -28,9 +28,10 @@ def send_login_email(request):
 
 def login(request):
     uid = request.GET.get('token')
-    print(f"token received {uid}")
     user = auth.authenticate(uid=uid)
-    print(f"User is: {user}")
     if user:
         auth.login(request, user)
     return redirect('/')
+
+def logout(request):
+    pass

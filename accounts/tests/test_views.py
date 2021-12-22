@@ -28,7 +28,7 @@ class SendLoginEmailViewTest(TestCase):
         (subject, body, from_email, to_list), kwargs = \
         mock_send_mail.call_args
         self.assertEqual(subject, 'Your login link for Superlists')
-        self.assertEqual(from_email, 'noreply@superlists')
+        self.assertEqual(from_email, 'numbmonke@gmail.com')
         self.assertEqual(to_list, ['edith@example.com'])
 
     def test_adds_success_message(self):
@@ -85,6 +85,6 @@ class LoginViewTest(TestCase):
     def test_does_not_login_if_user_is_not_authenticated(self, mock_auth):
 
         mock_auth.authenticate.return_value = None
-        self.client.get('/accounts/login?=abcd123')
+        self.client.get('/accounts/login?token=abcd123')
         self.assertEqual(mock_auth.login.called, False)
         

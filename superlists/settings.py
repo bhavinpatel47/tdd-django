@@ -53,8 +53,8 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = "accounts.User"
 
-AUTHENTICATE_BACKENDS = [
-    'accounts.authenticate.PasswordlessAuthenticationBackend',
+AUTHENTICATION_BACKENDS = [
+    'accounts.authentication.PasswordlessAuthenticationBackend',
 ]
 
 MIDDLEWARE = [
