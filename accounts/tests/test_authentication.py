@@ -6,6 +6,7 @@ from accounts.authentication import PasswordlessAuthenticationBackend
 from accounts.models import Token
 
 User = get_user_model()
+print(f"using {User} of type {type(User)}")
 request = HttpRequest()
 
 

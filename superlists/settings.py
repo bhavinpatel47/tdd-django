@@ -31,13 +31,6 @@ else:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# Remove Email code after debugging
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'numbmonke@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -54,6 +47,7 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = "accounts.User"
 
 AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'accounts.authentication.PasswordlessAuthenticationBackend',
 ]
 
@@ -138,3 +132,27 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "../static"))
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+        },
+    },
+    'root': {'level': 'INFO'},
+}
+
+# Remove Email code after debugging
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'numbmonke@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

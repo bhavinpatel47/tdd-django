@@ -1,11 +1,11 @@
-from django.contrib import auth, messages
+from django.contrib import messages, auth
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.shortcuts import redirect, render
 
 from accounts.models import Token, User
 
-# Create your views here.
+
 def send_login_email(request):
     email = request.POST['email']
     token = Token.objects.create(email=email)
@@ -27,11 +27,11 @@ def send_login_email(request):
     return redirect('/')
 
 def login(request):
-    uid = request.GET.get('token')
-    user = auth.authenticate(uid=uid)
+    token_uid = request.GET.get('token')
+    user = auth.authenticate(request, token_uid=token_uid)
+
+    print(f"Users: {User.objects.all()}")
     if user:
+        print(f"User {user.email} exists")
         auth.login(request, user)
     return redirect('/')
-
-def logout(request):
-    pass
