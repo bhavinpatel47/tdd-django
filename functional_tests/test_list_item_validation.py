@@ -2,10 +2,10 @@ from unittest import skip
 
 from selenium.webdriver.common.keys import Keys
 
-from .base import FunctionalTests
+from .base import FunctionalTest
 
 
-class ItemValidationTest(FunctionalTests):
+class ItemValidationTest(FunctionalTest):
 
     def get_error_element(self):
         return self.browser.find_element_by_css_selector('.has-error')

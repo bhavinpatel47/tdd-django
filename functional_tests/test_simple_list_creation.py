@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from .base import FunctionalTests
+from .base import FunctionalTest
 
 
-class NewVisitorTest(FunctionalTests):
+class NewVisitorTest(FunctionalTest):
 
     def test_can_start_a_list_for_one_user(self):
         # Edith wants to use a web app with To-Do capabilities.

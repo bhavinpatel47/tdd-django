@@ -1,9 +1,9 @@
 from selenium.webdriver.common.keys import Keys
 
-from .base import FunctionalTests
+from .base import FunctionalTest
 
 
-class LayoutAndStyling(FunctionalTests):
+class LayoutAndStyling(FunctionalTest):
 
     def test_layout_and_styling(self):
         # Edith goes to the home page
