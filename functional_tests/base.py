@@ -22,9 +22,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def tearDown(self) -> None:
         self.browser.quit()
 
-    @wait
-    def wait_for(self, function):
-        return function()
+
 
     def wait(fn):
         def modified_fn(*args, **kwargs):
@@ -38,6 +36,10 @@ class FunctionalTest(StaticLiveServerTestCase):
                     time.sleep(0.5)
         return modified_fn
 
+    @wait
+    def wait_for(self, function):
+        return function()
+        
     @wait
     def wait_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
