@@ -13,7 +13,7 @@ class MyListTest(FunctionalTest):
         user = User.objects.create(email=email)
         session = SessionStore()
         session[SESSION_KEY] = user.pk
-        session[BACKEND_SESSION_KEY] = settings.AUTHENICATION_BACKENDS[1]
+        session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[1]
         session.save()
 
         ## to set cookie we need to first visit the domain

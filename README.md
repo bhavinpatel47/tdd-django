@@ -6,3 +6,5 @@ The deployment is on: http://numbmonke.pythonanywhere.com/
 This is still a work in progress as I go through the whole book.
 
 Current chapter: [Test Fixtures and a Decorator for Explicit Waits](https://www.obeythetestinggoat.com/book/chapter_fixtures_and_wait_decorator.html)
+
+Deploying to AWS EC2 instance
