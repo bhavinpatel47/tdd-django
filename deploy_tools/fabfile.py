@@ -1,7 +1,8 @@
-from locale import currency
 import random
 from fabric.contrib.files import append, exists
 from fabric.api import cd, env, local, run
+
+env.key_filename = ["./tdd-django-key.pem"]
 
 REPO_URL = 'https://github.com/bhavinpatel47/tdd-django'
 
@@ -17,7 +18,7 @@ def deploy():
 
 def _get_latest_source():
     if exists('.git'):
-        run('get fetch')
+        run('git fetch')
     else:
         run(f'git clone {REPO_URL} .')
     current_commit = local('git log -n 1 --format=%H', capture=True)
@@ -26,7 +27,7 @@ def _get_latest_source():
 def _update_virtualenv():
     if not exists('virtualenv/bin/pip'):
         run(f'python3.7 -m venv virtualenv')
-    run('./virtualenv/bin/pip install -r requirements.txt')
+    run('./virtualenv/bin/python -m pip install -r requirements.txt')
 
 def _create_or_update_dotenv():
     append('.env', 'DJANGO_DEBUG_FALSE=y')

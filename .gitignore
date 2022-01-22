@@ -12,3 +12,5 @@ aws/numbmonke-tdd-django_credentials.csv
 aws/steps for deployment
 aws/tdd-django-key-aws.ppk
 aws/tdd-django-key.pem
+deploy_tools/tdd-django-key.pem
+aws/GMAIL token.txt
