@@ -33,6 +33,13 @@ else:
 
 # Application definition
 
+# SECURITY SECTION:
+# SECURE_SSL_REDIRECT = True  ## use when using SSL on production
+SECURE_FRAME_DENY = True
+SECURE_BROWSER_XSS_FILTER=True
+
+
+
 INSTALLED_APPS = [
     # 'django.contrib.admin',
     'django.contrib.auth',
