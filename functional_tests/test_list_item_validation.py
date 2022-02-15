@@ -20,12 +20,8 @@ class ItemValidationTest(FunctionalTest):
         self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:invalid'))
 
         # She tries again with some text for the item and it works.
-        self.get_item_input_box().send_keys('Buy milk')
-        self.wait_for(lambda: self.browser.find_element_by_css_selector('#id_text:valid'))
-
         # And she can submit successfully
-        self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Buy milk')
+        self.add_list_item('Buy milk')
 
         # Perversely, she now decides to enter a second empty list item.
         self.get_item_input_box().send_keys(Keys.ENTER)
@@ -44,9 +40,7 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_add_duplicate_items(self):
         # Edith goes to the home page and starts a new list
         self.browser.get(self.live_server_url)
-        self.get_item_input_box().send_keys('Dupe the duke')
-        self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Dupe the duke')
+        self.add_list_item('Dupe the duke')
 
         # She accidentally tries to enter a duplicate item
         self.get_item_input_box().send_keys('Dupe the duke')
@@ -61,9 +55,7 @@ class ItemValidationTest(FunctionalTest):
     def test_error_messages_are_cleared_on_input(self):
         # Edith starts a list and causes a validation error
         self.browser.get(self.live_server_url)
-        self.get_item_input_box().send_keys('Expecto Patronum!')
-        self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Expecto Patronum!')
+        self.add_list_item('Expecto Patronum!')
         self.get_item_input_box().send_keys('Expecto Patronum!')
         self.get_item_input_box().send_keys(Keys.ENTER)
 
@@ -72,7 +64,7 @@ class ItemValidationTest(FunctionalTest):
         ))
 
         # She starts typing in the input box to clear the error
-        self.get_item_input_box().send_keys('E')
+        self.get_item_input_box().send_keys('new text')
 
         # She is pleased to see that the error message disappears
         self.wait_for(lambda: self.assertFalse(
@@ -83,9 +75,7 @@ class ItemValidationTest(FunctionalTest):
 
         # Edith starts a list and causes a validation error
         self.browser.get(self.live_server_url)
-        self.get_item_input_box().send_keys('Testing click disappearance')
-        self.get_item_input_box().send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Testing click disappearance')
+        self.add_list_item('Testing click disappearance')
         self.get_item_input_box().send_keys('Testing click disappearance')
         self.get_item_input_box().send_keys(Keys.ENTER)
 
