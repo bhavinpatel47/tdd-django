@@ -30,8 +30,6 @@ def login(request):
     token_uid = request.GET.get('token')
     user = auth.authenticate(request, token_uid=token_uid)
 
-    print(f"Users: {User.objects.all()}")
     if user:
-        print(f"User {user.email} exists")
         auth.login(request, user)
     return redirect('/')

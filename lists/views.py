@@ -1,6 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your views here.
 from lists.forms import ItemForm, ExistingListItemForm
@@ -33,4 +36,6 @@ def view_list(request: HttpRequest, list_id):
     return render(request, "list.html", {'list': list_, "form": form})
 
 def my_lists(request, email):
-    return render(request, 'my_lists.html')
+    owner = User.objects.get(email=email)
+    context={'owner': owner}
+    return render(request, 'my_lists.html', context=context)
