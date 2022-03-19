@@ -16,3 +16,4 @@ deploy_tools/tdd-django-key.pem
 aws/GMAIL token.txt
 db.sqlite3
 console_dump.txt
+aws/jenkins
