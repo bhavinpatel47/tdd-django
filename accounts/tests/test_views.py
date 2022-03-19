@@ -53,7 +53,7 @@ class SendLoginEmailViewTest(TestCase):
         self.assertEqual(token.email, 'edith@example.com')
 
     @patch('accounts.views.send_mail')
-    def test_sends_link_to_login_using_tokien_uid(self, mock_send_mail):
+    def test_sends_link_to_login_using_token_uid(self, mock_send_mail):
         self.client.post(
             '/accounts/send_login_email',
             data={'email': 'edith@example.com'}
@@ -73,7 +73,7 @@ class LoginViewTest(TestCase):
 
     def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
         self.client.get('/accounts/login?token=abcd123')
-        self.assertEqual(mock_auth.authenticate.call_args, call(uid='abcd123'))
+        self.assertEqual(mock_auth.authenticate.call_args, call(token_uid='abcd123'))
 
     def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
         response = self.client.get('/accounts/login?token=abcd123')
