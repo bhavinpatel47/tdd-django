@@ -17,3 +17,4 @@ aws/GMAIL token.txt
 db.sqlite3
 console_dump.txt
 aws/jenkins
+functional_tests/screendumps
