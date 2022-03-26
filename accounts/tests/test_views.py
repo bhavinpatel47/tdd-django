@@ -1,19 +1,17 @@
-from unittest import mock
 from unittest.mock import call, patch
 
-from django.test import TestCase, testcases
+from django.test import TestCase
 
-import accounts
 from accounts.models import Token
 
 
 class SendLoginEmailViewTest(TestCase):
-    
+
     def test_redirects_to_home_page(self):
         response = self.client.post(
-            '/accounts/send_login_email', 
+            '/accounts/send_login_email',
             data={'email': 'edith@example.com'
-        })
+                  })
 
         self.assertRedirects(response, '/')
 
@@ -26,27 +24,27 @@ class SendLoginEmailViewTest(TestCase):
 
         self.assertEqual(mock_send_mail.called, True)
         (subject, body, from_email, to_list), kwargs = \
-        mock_send_mail.call_args
+            mock_send_mail.call_args
         self.assertEqual(subject, 'Your login link for Superlists')
         self.assertEqual(from_email, 'numbmonke@gmail.com')
         self.assertEqual(to_list, ['edith@example.com'])
 
     def test_adds_success_message(self):
         response = self.client.post(
-            '/accounts/send_login_email', 
-            data = {'email': 'edith@example.com'}, 
+            '/accounts/send_login_email',
+            data={'email': 'edith@example.com'},
             follow=True
-            )
+        )
         message = list(response.context['messages'])[0]
         self.assertEqual(
-            message.message, 
+            message.message,
             "Check your email, we've sent you a link you can use to log in."
-            )
+        )
         self.assertEqual(message.tags, 'success')
 
     def test_creates_token_associated_with_email(self):
         self.client.post(
-            '/accounts/send_login_email', 
+            '/accounts/send_login_email',
             data={'email': 'edith@example.com'}
         )
         token = Token.objects.first()
@@ -57,13 +55,13 @@ class SendLoginEmailViewTest(TestCase):
         self.client.post(
             '/accounts/send_login_email',
             data={'email': 'edith@example.com'}
-            )
+        )
         token = Token.objects.first()
         expected_url = f'http://testserver/accounts/login?token={token.uid}'
         (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
         self.assertIn(expected_url, body)
 
-    
+
 @patch('accounts.views.auth')
 class LoginViewTest(TestCase):
 
@@ -74,7 +72,8 @@ class LoginViewTest(TestCase):
     def test_calls_authenticate_with_uid_from_get_request(self, mock_auth):
         response = self.client.get('/accounts/login?token=abcd123')
         wsgi_request = response.wsgi_request
-        self.assertEqual(mock_auth.authenticate.call_args, call(wsgi_request, token_uid='abcd123'))
+        self.assertEqual(mock_auth.authenticate.call_args,
+                         call(wsgi_request, token_uid='abcd123'))
 
     def test_calls_auth_login_with_user_if_there_is_one(self, mock_auth):
         response = self.client.get('/accounts/login?token=abcd123')
@@ -88,4 +87,3 @@ class LoginViewTest(TestCase):
         mock_auth.authenticate.return_value = None
         self.client.get('/accounts/login?token=abcd123')
         self.assertEqual(mock_auth.login.called, False)
-        

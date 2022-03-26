@@ -17,7 +17,8 @@ class LayoutAndStyling(FunctionalTest):
             512,
             delta=6)
 
-        # She starts a new list and sees that the input box is nicely centered there too.
+        # She starts a new list and sees that the input box is
+        # nicely centered there too.
         inputbox = self.get_item_input_box()
         inputbox.send_keys("Edith wants everything centered")
         inputbox.send_keys(Keys.ENTER)
